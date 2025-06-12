@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+
+
+use strict;
+
+
+open FILE,"$ARGV[0]" or die;
+
+
+my @array;
+my $i;
+my $length1=$ARGV[1];#length1 is the length of the target sequence#
+my $length2=$ARGV[2];#length2 is the length of the gap between the target sequence#
+my $num=1;
+
+
+while(<FILE>){
+        chomp;
+        @array=split //,$_;
+        for($i=0;$i<=$#array;$i++){
+                my $end=$i+$length1+$length1+$length2-1;
+                if($end<=$#array){
+                        if(($array[$i]=~/T/)&&($array[$end]=~/A/)){
+					print "$num\tf\t";
+                                for(my $j=$i;$j<=$i+$length1-1;$j++){
+                                        print $array[$j];
+                                }
+                                print "\n";
+                                print "$num\tr\t";
+                                for(my $j=$end;$j>=$end-$length1+1;$j--){
+                                        print $array[$j];
+                                }
+                                print "\n";
+                                $num ++;
+                        }
+                }
+        }
+}
+
+
+
